@@ -38,8 +38,48 @@
           :loading="loading"
           clearable
         ></v-autocomplete>
+
         <!-- Bagin of informations about the selected country -->
+        <v-card v-if="country" class="center-horizontally">
+          <v-row>
+            <v-col>
+              <div class="title-wrapper">
+                <v-icon role="img" aria-hidden="false"> mdi-city </v-icon>
+                <div>
+                  <v-card-title>{{ country.capital }}</v-card-title>
+                  <v-card-subtitle>Population</v-card-subtitle>
+                </div>
+              </div>
+              <div class="title-wrapper">
+                <v-icon role="img" aria-hidden="false">
+                  mdi-account-multiple
+                </v-icon>
+                <div>
+                  <v-card-title>{{ country.population }}</v-card-title>
+                  <v-card-subtitle>Population</v-card-subtitle>
+                </div>
+              </div>
+            </v-col>
+            <v-col>
+              <div class="title-wrapper">
+                <v-icon role="img" aria-hidden="false"> mdi-earth </v-icon>
+                <div>
+                  <v-card-title>{{ country.language[0] }}</v-card-title>
+                  <v-card-subtitle>Language</v-card-subtitle>
+                </div>
+              </div>
+              <div class="title-wrapper">
+                <v-icon role="img" aria-hidden="false"> mdi-search-web </v-icon>
+                <div>
+                  <v-card-title>{{ country.region }}</v-card-title>
+                  <v-card-subtitle>Region</v-card-subtitle>
+                </div>
+              </div>
+            </v-col>
+          </v-row>
+        </v-card>
         <!-- End of informations about the selected country -->
+
         <v-checkbox
           v-model="checkbox"
           :rules="[(v) => !!v || 'You must agree to continue!']"
@@ -60,6 +100,7 @@
 </template>
 
 <script>
+import { mdiCity, mdiEarth, mdiAccountMultiple, mdiSearchWeb } from "@mdi/js";
 export default {
   name: "ContactForm",
   data: () => ({
@@ -79,6 +120,12 @@ export default {
     country: null, //selected country
     countries: [], //list of available countries
     checkbox: false,
+    icons: {
+      mdiCity,
+      mdiEarth,
+      mdiAccountMultiple,
+      mdiSearchWeb,
+    },
   }),
   async created() {
     this.loading = true;
@@ -105,7 +152,6 @@ export default {
         console.error(error);
       }
     },
-
     send() {
       this.valid = this.validation();
       if (this.valid) alert("The application has been sent!");
@@ -122,3 +168,20 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.center-horizontally {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.title-wrapper {
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+}
+
+.title-wrapper v-icon {
+  margin-right: 10px;
+}
+</style>
