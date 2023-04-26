@@ -162,9 +162,6 @@ export default {
     validation() {
       return this.$refs.form.validate();
     },
-    showInformation() {
-      console.log("boo");
-    },
   },
   mounted() {
     this.getCountries();
