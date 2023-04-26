@@ -87,15 +87,25 @@ export default {
   },
   methods: {
     async getCountries() {
-      //
-      // Read me:
-      // URI:https://jsonmock.hackerrank.com/api/countries
-      // start your code
-      //
-      //
-      // return countries
-      //
+      try {
+        let page = 1;
+        let allCountries = [];
+        while (page <= 100) {
+          // limit max number of iterations
+          const response = await fetch(
+            `https://jsonmock.hackerrank.com/api/countries?page=${page}`
+          );
+          const data = await response.json();
+          allCountries = [...allCountries, ...data.data];
+          this.countries = allCountries;
+          if (data.page == data.total_pages) break;
+          page++;
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
+
     send() {
       this.valid = this.validation();
       if (this.valid) alert("The application has been sent!");
@@ -107,6 +117,8 @@ export default {
       return this.$refs.form.validate();
     },
   },
+  mounted() {
+    this.getCountries();
+  },
 };
 </script>
-
